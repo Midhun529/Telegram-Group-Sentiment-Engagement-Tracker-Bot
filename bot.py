@@ -1,12 +1,11 @@
 
 from telegram import Update
 from telegram.ext import *
-import responses
 
 
 #Bot user_name and API token to connect the program to the code
 
-bot_user_name ="SentimentTracker_bot"
+bot_user_name ="SentimentTracker529_bot"
 API_token="8129880551:AAFTmwamjgYbHs7xHPRP1p9mfK6QqJN_vic" 
 
 
@@ -14,14 +13,16 @@ async def start_cmd_reply(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('Hello mahn! Letz Go...')
 
 def responses(update):
-    id=update.message.chat.ic
+    id=update.message.chat.id
 
-    if id=="":
-        return "Nee Poda Patti"
-    elif id=="":
-        return "Nee Sooper aada"
-    else:
-        return "aradaaa Nee aynnu"
+    return "Sorry I dont understand"
+
+    # if id=="":
+    #     return "Nee Poda Patti"
+    # elif id=="":
+    #     return "Nee Sooper aada"
+    # else:
+    #     return "aradaaa Nee aynnu"
     
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -54,13 +55,11 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     print('Starting up bot...')
-    app = Application.builder().token(TOKEN).build()
+    app = Application.builder().token(API_token).build()
 
     # Commands
-    app.add_handler(CommandHandler('start', start_command))
-    app.add_handler(CommandHandler('help', help_command))
-    app.add_handler(CommandHandler('custom', custom_command))
-
+    app.add_handler(CommandHandler('start', start_cmd_reply))
+  
     # Messages
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
 
@@ -73,4 +72,3 @@ def main():
 
 
 main()
-    
