@@ -1,7 +1,6 @@
 
 from telegram import Update
 from telegram.ext import *
-from senti_model import senti_test
 import os
 import json
 
@@ -9,6 +8,7 @@ import json
 
 bot_user_name ="SentimentTracker529_bot"
 API_token="8129880551:AAFTmwamjgYbHs7xHPRP1p9mfK6QqJN_vic" 
+chat_id=""
 
 
 async def start_cmd_reply(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -19,6 +19,12 @@ async def start_cmd_reply(update: Update, context: ContextTypes.DEFAULT_TYPE):
 def msg_save(update,msg_file):
     name = update.message.from_user.first_name
     msg=update.message.text
+    global chat_id
+    chat_id=update.message.chat_id
+    if os.path.exists("chat_id.txt"):
+        f1=open("chat_id.txt","w")
+        f1.write(str(chat_id))
+        f1.close()
     data = {}
     if os.path.exists(msg_file):
         try:
@@ -65,3 +71,4 @@ def main():
 
 
 main()
+
