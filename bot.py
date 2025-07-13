@@ -1,7 +1,9 @@
 
 from telegram import Update
 from telegram.ext import *
-
+from senti_model import senti_test
+import os
+import json
 
 #Bot user_name and API token to connect the program to the code
 
@@ -12,39 +14,30 @@ API_token="8129880551:AAFTmwamjgYbHs7xHPRP1p9mfK6QqJN_vic"
 async def start_cmd_reply(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('Hello mahn! Letz Go...')
 
-def responses(update):
-    id=update.message.chat.id
 
-    return "Sorry I dont understand"
 
-    # if id=="":
-    #     return "Nee Poda Patti"
-    # elif id=="":
-    #     return "Nee Sooper aada"
-    # else:
-    #     return "aradaaa Nee aynnu"
+def msg_save(update,msg_file):
+    name = update.message.from_user.first_name
+    msg=update.message.text
+    data = {}
+    if os.path.exists(msg_file):
+        try:
+            with open(msg_file, "r") as f:
+                data = json.load(f)
+        except json.JSONDecodeError:
+            data = {} 
+    if name not in data:
+        data[name] = []
+    data[name].append(msg)
+    with open(msg_file, "w") as f:
+        json.dump(data, f)
+
     
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    msg_typ = update.message.chat.type
-    text = update.message.text
-
-    # Log users
-    print(f'User ({update.message.chat.id}) in {msg_typ}: "{text}"')
-
-    # Handle message type
-    if msg_typ == 'group':
-        if bot_user_name in text:
-            #new_text: str = text.replace(bot_user_name, '').strip()
-            response = responses(update)
-        else:
-            return
-    else:
-        response = responses(update)
-
-    # Reply
-    print('Bot:', response)
-    await update.message.reply_text(response)
+   # print(f'User ({update.message.chat.id}) in {msg_typ}: "{text}"')
+    msg_file = "msg.json"
+    msg_save(update,msg_file)
 
 
 
