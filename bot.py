@@ -21,11 +21,13 @@ def msg_save(update,msg_file):
     msg=update.message.text
     global chat_id
     chat_id=update.message.chat_id
+    #To store the chat_ID of he group to the 'chat_id.txt' file, So that the bot can send a message to the group without user's help 
     if os.path.exists("chat_id.txt"):
         f1=open("chat_id.txt","w")
         f1.write(str(chat_id))
         f1.close()
     data = {}
+    #To add the user message to the json file (like a dictionary with key name and the value is list of message)
     if os.path.exists(msg_file):
         try:
             with open(msg_file, "r") as f:
@@ -47,7 +49,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
-# Error handler
+# To handle Errors
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(f'Update {update} caused error: {context.error}')
 
